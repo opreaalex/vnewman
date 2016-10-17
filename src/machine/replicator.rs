@@ -1,5 +1,6 @@
 
 use world::resource::Resource;
+use world::space::{Space, SpaceBlock};
 
 pub struct Replicator {
     id: i32,
