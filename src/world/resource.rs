@@ -3,6 +3,8 @@ extern crate rand;
 use self::rand::Rng;
 use std::fmt;
 
+#[derive(Clone)]
+#[derive(Debug)]
 pub struct Resource {
     iron: i32,
     silicon: i32,

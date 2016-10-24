@@ -1,10 +1,14 @@
+use std::mem;
+
 use world::resource::Resource;
 use machine::replicator::Replicator;
 
+#[derive(Debug)]
 pub struct Space {
     blocks: Vec<SpaceBlock>,
 }
 
+#[derive(Debug)]
 pub struct SpaceBlock {
     x: i32,
     y: i32,
@@ -34,21 +38,22 @@ impl Space {
         }
         Space{blocks: blocks}
     }
+
+    pub fn get_blocks(&mut self) -> &mut Vec<SpaceBlock> {
+        &mut self.blocks
+    }
 }
 
 impl SpaceBlock {
-    pub fn get_resources(&self) -> &Vec<Resource> {
-        &self.resources
+    pub fn get_resources(&mut self) -> &mut Vec<Resource> {
+        &mut self.resources
     }
 
-    pub fn collect_resources(&self, indexes: Vec<i32>) -> Vec<Resource> {
-        let mut collected: Vec<Resource> = Vec::new();
-        for index in indexes {
-            let res = &self.resources[index as usize];
-            collected.push(*res);
-            let mut resources = self.resources;
-            resources.remove(index as usize);
-        }
-        collected
+    pub fn set_resources(&mut self, res: Vec<Resource>) {
+        self.resources = res;
+    }
+
+    pub fn collect_resources(&mut self) -> Vec<Resource> {
+        mem::replace(&mut self.get_resources(), Vec::new())
     }
 }

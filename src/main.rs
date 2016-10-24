@@ -1,6 +1,7 @@
 extern crate vnewman;
 
 use vnewman::world::resource::Resource;
+use vnewman::world::space::Space;
 use vnewman::machine::replicator::Replicator;
 
 fn main() {
@@ -25,4 +26,11 @@ fn main() {
     replicators.extend(new_replicators);
 
     println!("Replicators after replication: {}", replicators.len());
+
+    println!("Creating space...");
+
+    let mut space = Space::new(1);
+    let blocks = space.get_blocks();
+
+    println!("{:?}", blocks);
 }

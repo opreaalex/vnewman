@@ -2,6 +2,7 @@
 use world::resource::Resource;
 use world::space::{Space, SpaceBlock};
 
+#[derive(Debug)]
 pub struct Replicator {
     id: i32,
     collector: Vec<Resource>,
