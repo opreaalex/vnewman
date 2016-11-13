@@ -1,4 +1,6 @@
+use std::{thread, time};
 
+use common::util;
 use world::resource::Resource;
 use world::space::{Space, SpaceBlock};
 
@@ -6,11 +8,16 @@ use world::space::{Space, SpaceBlock};
 pub struct Replicator {
     id: i32,
     collector: Vec<Resource>,
+    position: util::Position,
 }
 
 impl Replicator {
-    pub fn new(id: i32) -> Replicator {
-        Replicator{id: id, collector: Vec::new()}
+    pub fn new(id: i32, pos: util::Position) -> Replicator {
+        Replicator{
+            id: id,
+            collector: Vec::new(),
+            position: pos,
+        }
     }
 
     pub fn get_id(&self) -> i32 {
@@ -20,7 +27,8 @@ impl Replicator {
     pub fn replicate(&mut self) -> Option<Replicator> {
         if self.meets_requirements() {
             self.collector = Vec::new();
-            Some(Replicator::new(0))
+            let pos = self.position.clone();
+            Some(Replicator::new(0, pos))
         } else {
             None
         }
@@ -28,6 +36,16 @@ impl Replicator {
 
     pub fn add_resource(&mut self, res: Resource) {
         self.collector.push(res);
+    }
+
+    pub fn move_to(&mut self, pos: util::Position) {
+        // Duration between 1 and 10 seconds
+        let millis = util::new_random(1000, 10001);
+        let duration = time::Duration::from_millis(millis);
+
+        thread::sleep(duration);
+
+        self.position = pos
     }
 
     fn meets_requirements(&self) -> bool {
